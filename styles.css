@@ -490,6 +490,20 @@ h3 {
   margin: 0;
 }
 
+.footer-credit {
+  margin-left: 0.4rem;
+}
+
+.footer-credit a {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.footer-credit a:hover {
+  color: var(--accent);
+}
+
 .social-links {
   display: flex;
   gap: var(--space-3);
