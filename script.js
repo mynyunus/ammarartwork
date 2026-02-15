@@ -1,7 +1,5 @@
 (function () {
-  var menuToggle = document.getElementById("menuToggle");
-  var mobileMenu = document.getElementById("mobileMenu");
-  var menuBackdrop = document.getElementById("menuBackdrop");
+  var siteHeader = document.getElementById("siteHeader");
   var backToTop = document.getElementById("backToTop");
   var yearNode = document.getElementById("year");
   var heroVideo = document.getElementById("heroVideo");
@@ -14,6 +12,17 @@
   if (yearNode) {
     yearNode.textContent = String(new Date().getFullYear());
   }
+
+  function updateHeaderCompactState() {
+    if (!siteHeader) {
+      return;
+    }
+
+    siteHeader.classList.toggle("is-scrolled", window.scrollY > 18);
+  }
+
+  updateHeaderCompactState();
+  window.addEventListener("scroll", updateHeaderCompactState, { passive: true });
 
   function updateHeroVideoSource() {
     if (!heroVideo || !heroVideoSource) {
@@ -46,41 +55,7 @@
     mobileViewportQuery.addListener(updateHeroVideoSource);
   }
 
-  function setMenuState(isOpen) {
-    if (!menuToggle || !mobileMenu || !menuBackdrop) {
-      return;
-    }
-
-    menuToggle.setAttribute("aria-expanded", String(isOpen));
-    menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
-    mobileMenu.setAttribute("aria-hidden", String(!isOpen));
-    mobileMenu.classList.toggle("is-open", isOpen);
-    menuBackdrop.classList.toggle("is-open", isOpen);
-    document.body.style.overflow = isOpen ? "hidden" : "";
-  }
-
-  if (menuToggle && mobileMenu && menuBackdrop) {
-    menuToggle.addEventListener("click", function () {
-      var isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
-      setMenuState(!isExpanded);
-    });
-
-    menuBackdrop.addEventListener("click", function () {
-      setMenuState(false);
-    });
-
-    mobileMenu.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        setMenuState(false);
-      });
-    });
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") {
-        setMenuState(false);
-      }
-    });
-  }
+  var floatingNavLinks = document.querySelectorAll(".floating-nav a[href^=\"#\"]");
 
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener("click", function (event) {
@@ -99,6 +74,13 @@
         behavior: reduceMotion ? "auto" : "smooth",
         block: "start"
       });
+
+      if (anchor.closest(".floating-nav")) {
+        floatingNavLinks.forEach(function (link) {
+          link.classList.remove("is-active");
+        });
+        anchor.classList.add("is-active");
+      }
     });
   });
 
