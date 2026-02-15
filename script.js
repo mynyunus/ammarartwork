@@ -4,7 +4,9 @@
   var menuBackdrop = document.getElementById("menuBackdrop");
   var backToTop = document.getElementById("backToTop");
   var yearNode = document.getElementById("year");
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var isCoarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  var isSmallViewport = window.matchMedia("(max-width: 62rem)").matches;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches || isCoarsePointer || isSmallViewport;
 
   if (yearNode) {
     yearNode.textContent = String(new Date().getFullYear());
