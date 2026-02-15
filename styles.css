@@ -682,12 +682,16 @@ h3 {
   }
 
   .hero-media {
-    display: none;
+    display: block;
   }
 
   .hero {
-    min-height: auto;
+    min-height: clamp(30rem, 82svh, 44rem);
     padding: var(--space-7) 0;
+  }
+
+  .hero-video {
+    transform: none;
   }
 
   .reveal {

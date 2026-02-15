@@ -81,8 +81,18 @@
     <main id="main-content">
       <section class="hero reveal">
         <div class="hero-media" aria-hidden="true">
-          <video class="hero-video" autoplay muted loop playsinline preload="metadata">
-            <source src="assets/ammarartwork.mp4" type="video/mp4" />
+          <video
+            id="heroVideo"
+            class="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            data-desktop-src="assets/ammarartwork.mp4"
+            data-mobile-src="assets/SaveClip.App_AQObEJM5A_v8UXc1IqiHfb_WAqEFtG3BuoyR-E9BFXu3fL-eMSUrVLQALVWGoMvZZ_oOqhHDrEsGL_WOPIXccII.mp4"
+          >
+            <source id="heroVideoSource" src="assets/ammarartwork.mp4" type="video/mp4" />
           </video>
           <div class="hero-overlay"></div>
         </div>

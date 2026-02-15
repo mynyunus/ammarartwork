@@ -4,12 +4,46 @@
   var menuBackdrop = document.getElementById("menuBackdrop");
   var backToTop = document.getElementById("backToTop");
   var yearNode = document.getElementById("year");
+  var heroVideo = document.getElementById("heroVideo");
+  var heroVideoSource = document.getElementById("heroVideoSource");
+  var mobileViewportQuery = window.matchMedia("(max-width: 62rem)");
   var isCoarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
   var isSmallViewport = window.matchMedia("(max-width: 62rem)").matches;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches || isCoarsePointer || isSmallViewport;
 
   if (yearNode) {
     yearNode.textContent = String(new Date().getFullYear());
+  }
+
+  function updateHeroVideoSource() {
+    if (!heroVideo || !heroVideoSource) {
+      return;
+    }
+
+    var desktopSrc = heroVideo.dataset.desktopSrc;
+    var mobileSrc = heroVideo.dataset.mobileSrc;
+    var targetSrc = mobileViewportQuery.matches ? mobileSrc : desktopSrc;
+
+    if (!targetSrc || heroVideoSource.getAttribute("src") === targetSrc) {
+      return;
+    }
+
+    heroVideoSource.setAttribute("src", targetSrc);
+    heroVideo.load();
+
+    var playAttempt = heroVideo.play();
+    if (playAttempt && typeof playAttempt.catch === "function") {
+      playAttempt.catch(function () {
+        return;
+      });
+    }
+  }
+
+  updateHeroVideoSource();
+  if (typeof mobileViewportQuery.addEventListener === "function") {
+    mobileViewportQuery.addEventListener("change", updateHeroVideoSource);
+  } else if (typeof mobileViewportQuery.addListener === "function") {
+    mobileViewportQuery.addListener(updateHeroVideoSource);
   }
 
   function setMenuState(isOpen) {
